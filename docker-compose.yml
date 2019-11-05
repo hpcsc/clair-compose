@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    image: arminc/clair-db
+
+  clair:
+    image: arminc/clair-local-scan:v2.0.8_0ed98e9ead65a51ba53f7cc53fa5e80c92169207
+    volumes:
+      - ./wait-for:/app/wait-for
+    entrypoint: /app/wait-for postgres:5432 -- /clair -config=/config/config.yaml
+    ports:
+      - 6060:6060
